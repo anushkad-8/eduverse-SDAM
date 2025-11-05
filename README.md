@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+ EduVerse — Interactive Learning Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+EduVerse is a modern, responsive web application designed to enhance learning through interactive quizzes, performance analytics, and engaging course management.
+Built with React, Tailwind CSS, and smooth animations, it provides an immersive experience for both students and teachers.
 
-## Available Scripts
+Features
+1. Student Portal
 
-In the project directory, you can run:
+Personalized Dashboard: View enrolled courses, recent activities, and quick access to quizzes.
+<img width="1919" height="897" alt="image" src="https://github.com/user-attachments/assets/fabb8d19-0611-4ecf-b6bd-879b97ca0a0f" />
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Interactive Quizzes:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Real-time feedback with explanations.
 
-### `npm test`
+Progress tracking and final score celebration animation.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Retake option with updated scores.
 
-### `npm run build`
+<img width="1905" height="636" alt="image" src="https://github.com/user-attachments/assets/797efd7c-989f-43c3-8c3f-95a002d0055a" />
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Leaderboard: See where you stand among other learners, ranked by performance and participation.
+<img width="1916" height="870" alt="image" src="https://github.com/user-attachments/assets/c6920f0d-8966-4e9f-b239-869c2be2e3bb" />
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Discussion Forum: Engage with peers and discuss concepts collaboratively.
+<img width="1901" height="939" alt="image" src="https://github.com/user-attachments/assets/ed62f522-42fc-4819-8a9e-52b480bdcafb" />
 
-### `npm run eject`
+ Course Explorer: Browse available courses, view modules, and track completion status.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Teacher Portal
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+📈 Student Analytics Dashboard:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+View participation rates, average quiz performance, and engagement metrics.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Animated data cards and interactive mini-charts for visual insights.
+<img width="1912" height="913" alt="image" src="https://github.com/user-attachments/assets/57e8b188-2694-44f3-b00d-b5b7c220b0e1" />
 
-## Learn More
+Course Management: Create, manage, and assign quizzes to students.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Discussion Management: Interact with students and moderate forum discussions.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Additional Highlights
 
-### Code Splitting
+🎨 Sleek modern UI with gradient themes and smooth animations (fadeIn, bounceIn).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+🎆 Floating particle background for enhanced visual appeal.
 
-### Analyzing the Bundle Size
+🔒 Secure authentication and role-based navigation (Student / Teacher).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+⚡ Responsive design optimized for desktop and mobile devices.
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Developed on 5th November, '25, only frontend, for SDAM cp
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

@@ -1512,6 +1512,7 @@ import LoginForm from "./components/LoginForm";
 // Dashboard Pages
 import StudentDashboard from "./pages/Dashboard/StudentDashboard";
 import TeacherDashboard from "./pages/Dashboard/TeacherDashboard";
+import TeacherQuizPage from "./pages/TeacherQuizPage.jsx";
 
 // Feature Pages
 import CoursesPage from "./pages/CoursesPage.jsx";
@@ -1555,7 +1556,7 @@ const AppContent = ({ setCurrentPage, currentPage }) => {
     <TeacherDashboard onNavigate={setCurrentPage} />
   )}
   {currentPage === "courses" && <CoursesPage />}
-  {currentPage === "quiz" && <QuizPage />}   {/* ✅ FIX: Added this line */}
+  {currentPage === "quiz" && <TeacherQuizPage />}
     {currentPage === "leaderboard" && <LeaderboardPage />}   {/* ✅ Add this line */}
   {currentPage === "forum" && <DiscussionForumPage />}
   {currentPage === "analytics" && (

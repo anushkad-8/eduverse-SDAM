@@ -1,4 +1,3 @@
-// src/context/CourseContext.js
 import React, { createContext, useContext, useState, useMemo, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 
@@ -13,7 +12,6 @@ const initialCourses = [
     instructor: "Dr. Sarah Johnson",
     students: ["student2"],
     published: true,
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 7,
   },
   {
     id: "C102",
@@ -23,111 +21,167 @@ const initialCourses = [
     instructor: "Prof. Amit Desai",
     students: [],
     published: true,
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 3,
+  },
+];
+
+// ✅ Sample quiz
+const initialQuizzes = [
+  {
+    id: "QZ1001",
+    title: "Intro Quiz (sample)",
+    courseId: "C101",
+    questions: [
+      {
+        question: "What is AI?",
+        options: [
+          "Artificial Intelligence",
+          "Automated Input",
+          "Applied Informatics",
+          "None of these",
+        ],
+        answer: "Artificial Intelligence",
+        explanation:
+          "AI means Artificial Intelligence — machines performing tasks requiring human-like intelligence.",
+      },
+    ],
   },
 ];
 
 export const CourseProvider = ({ children }) => {
   const { currentUser } = useAuth();
 
-  // ✅ Load from localStorage if available
+  // ✅ Persistent Course Data
   const [courses, setCourses] = useState(() => {
-    const saved = localStorage.getItem("eduverse_courses");
-    return saved ? JSON.parse(saved) : initialCourses;
+    const stored = localStorage.getItem("eduverse_courses");
+    return stored ? JSON.parse(stored) : initialCourses;
   });
 
-  // ✅ Persist in localStorage whenever courses change
   useEffect(() => {
     localStorage.setItem("eduverse_courses", JSON.stringify(courses));
   }, [courses]);
 
-  // 🔹 Helper to generate unique IDs
-  const generateCourseId = (title = "") => {
-    const t = title.replace(/\s+/g, "").toUpperCase().slice(0, 6);
-    return `${t || "C"}${Math.floor(Math.random() * 9000) + 1000}`;
-  };
+  // ✅ Persistent Quiz Data
+  const [quizzes, setQuizzes] = useState(() => {
+    const stored = localStorage.getItem("eduverse_quizzes");
+    return stored ? JSON.parse(stored) : initialQuizzes;
+  });
 
-  // 🔹 Create new course
+  useEffect(() => {
+    localStorage.setItem("eduverse_quizzes", JSON.stringify(quizzes));
+  }, [quizzes]);
+
+  // ===============================
+  // COURSE LOGIC
+  // ===============================
+
+  const generateCourseId = (title = "") =>
+    `${title.replace(/\s+/g, "").toUpperCase().slice(0, 4)}${Math.floor(
+      Math.random() * 9000
+    ) + 1000}`;
+
   const createCourse = ({ title, description, published = true }) => {
-    if (!currentUser || currentUser.role !== "teacher") {
+    if (!currentUser || currentUser.role !== "teacher")
       return { ok: false, message: "Only teachers can create courses" };
-    }
 
     const newCourse = {
       id: generateCourseId(title),
       title,
-      description: description || "",
+      description,
       teacherId: currentUser.id,
       instructor: currentUser.name,
       students: [],
       published,
-      createdAt: Date.now(),
     };
 
     setCourses((prev) => [newCourse, ...prev]);
     return { ok: true, course: newCourse };
   };
 
-  // 🔹 Edit / Publish / Unpublish
-  const editCourse = (id, updates = {}) => {
-    setCourses((prev) => prev.map((c) => (c.id === id ? { ...c, ...updates } : c)));
-    return { ok: true };
-  };
-  const publishCourse = (id) => editCourse(id, { published: true });
-  const unpublishCourse = (id) => editCourse(id, { published: false });
-
-  // 🔹 Student actions
-  const joinCourse = (id) => {
-    if (!currentUser || currentUser.role !== "student") {
+  const joinCourse = (courseId) => {
+    if (!currentUser || currentUser.role !== "student")
       return { ok: false, message: "Only students can join courses" };
-    }
+
     setCourses((prev) =>
       prev.map((c) =>
-        c.id === id
-          ? { ...c, students: c.students.includes(currentUser.id) ? c.students : [...c.students, currentUser.id] }
+        c.id === courseId && !c.students.includes(currentUser.id)
+          ? { ...c, students: [...c.students, currentUser.id] }
           : c
       )
     );
     return { ok: true };
   };
 
-  const leaveCourse = (id) => {
+  const leaveCourse = (courseId) => {
     if (!currentUser) return { ok: false };
     setCourses((prev) =>
       prev.map((c) =>
-        c.id === id ? { ...c, students: c.students.filter((s) => s !== currentUser.id) } : c
+        c.id === courseId
+          ? { ...c, students: c.students.filter((s) => s !== currentUser.id) }
+          : c
       )
     );
     return { ok: true };
   };
 
-  const getCourseById = (id) => courses.find((c) => c.id === id) || null;
-
-  // 🔹 Derived lists
-  const publishedCourses = useMemo(() => courses.filter((c) => c.published), [courses]);
+  // Derived lists
+  const publishedCourses = useMemo(
+    () => courses.filter((c) => c.published),
+    [courses]
+  );
   const myTeachingCourses = useMemo(
-    () => (currentUser ? courses.filter((c) => c.teacherId === currentUser.id) : []),
+    () =>
+      currentUser?.role === "teacher"
+        ? courses.filter((c) => c.teacherId === currentUser.id)
+        : [],
     [courses, currentUser]
   );
   const myEnrolledCourses = useMemo(
-    () => (currentUser ? courses.filter((c) => c.students.includes(currentUser.id)) : []),
+    () =>
+      currentUser?.role === "student"
+        ? courses.filter((c) => c.students.includes(currentUser.id))
+        : [],
     [courses, currentUser]
   );
+
+  // ===============================
+  // QUIZ LOGIC (Shared)
+  // ===============================
+
+  const addQuiz = (quiz) => {
+    const newQuiz = {
+      ...quiz,
+      id: `QZ${Math.floor(Math.random() * 90000)}`,
+      teacherId: currentUser?.id || "unknown",
+    };
+    setQuizzes((prev) => [newQuiz, ...prev]);
+    return { ok: true, quiz: newQuiz };
+  };
+
+  const getQuizzes = () => quizzes;
+
+  const getQuizzesByCourse = (courseId) =>
+    quizzes.filter((q) => q.courseId === courseId);
+
+  // ===============================
+  // PROVIDER VALUE
+  // ===============================
 
   return (
     <CourseContext.Provider
       value={{
+        // Course Data
         courses,
         publishedCourses,
         myTeachingCourses,
         myEnrolledCourses,
         createCourse,
-        editCourse,
-        publishCourse,
-        unpublishCourse,
         joinCourse,
         leaveCourse,
-        getCourseById,
+        // Quiz Data
+        quizzes,
+        addQuiz,
+        getQuizzes,
+        getQuizzesByCourse,
       }}
     >
       {children}
